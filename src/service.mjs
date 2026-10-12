@@ -84,6 +84,10 @@ export class Service {
           result.engine_version=page?.engine_version??null;Object.assign(network,proxy.summary());result.network={...network};
         }
       }
+      // Cancelling closes proxy sockets as well as the browser. The resulting
+      // engine error may finish before the supervisor reads its cancel IPC.
+      // Once cleanup is confirmed, the caller's cancellation/deadline wins.
+      if(controller.signal.aborted)throw new Error(controller.signal.reason==='deadline'?'timeout':'cancelled');
       if(run.reason!=='completed')throw new Error(run.reason==='cancelled'&&controller.signal.reason==='deadline'?'timeout':run.reason);
       try {page=JSON.parse(run.stdout);} catch {throw new Error(network.blocked?'network_policy':/raw non-HTML document fetch does not support/.test(run.stderr)?'unsupported_non_html_wait':'engine_failed');}
       // Final URL is checked again; browser transitions and subrequests are

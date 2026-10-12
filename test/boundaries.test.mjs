@@ -3,6 +3,25 @@ import fs from 'node:fs/promises';import path from 'node:path';import os from 'n
 import {Service} from '../src/service.mjs';import {fixtures} from './fixtures.mjs';
 import {runSupervised,sandboxCommand,ROOT} from '../src/process.mjs';
 
+for(const mode of ['cancelled','timeout'])test(`${mode} takes precedence when proxy shutdown produces a completed engine error`,async()=>{
+  const f=await fixtures();const external=new AbortController();let calls=0;
+  const runner=async({signal})=>{
+    calls++;
+    if(mode==='cancelled')external.abort();
+    else if(!signal.aborted)await new Promise(resolve=>signal.addEventListener('abort',resolve,{once:true}));
+    // Deterministically reproduce the CI ordering: the engine exits after
+    // socket teardown, before the supervisor's cancel message wins the race.
+    return {reason:'completed',exit_code:1,cleanup_success:true,stdout:'',stderr:'fixture upstream disconnected'};
+  };
+  const s=new Service({fixtures:[f.origin],evidenceDir:f.evidenceDir,runner,fallbackEnabled:true});
+  try {
+    const r=await s.readPage({url:f.origin+'/hang'},{signal:external.signal,deadline:Date.now()+1500});
+    assert.equal(calls,1);assert.equal(r.state,mode);assert.equal(r.cleanup_success,true);
+    assert.ok(r.warnings.includes(mode));assert.equal(r.attempts.length,1);
+    assert.equal(r.warnings.includes('engine_failed'),false);
+  }finally{await s.close();await f.close();}
+});
+
 test('slow DNS cannot exceed batch deadline',async()=>{
   const s=new Service({origins:['http://slow.test'],resolver:()=>new Promise(()=>{})});const start=Date.now();
   const r=await s.readPages({urls:['http://slow.test'],budget_ms:150});assert.ok(Date.now()-start<1500);assert.equal(r.results[0].state,'timeout');assert.equal(s.active,0);await s.close();
