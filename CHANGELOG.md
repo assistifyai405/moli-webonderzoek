@@ -8,6 +8,7 @@
 - Invalid/missing configuration now refuses MCP startup instead of silently falling back.
 - Optional user-level Codex connection with preserved TOML, conflict refusal and implicit research skill.
 - Windows/Linux GitHub Actions workflow, public package manifests/scans and clean runtime extraction checks.
+- Cancellation and deadlines retain their correct state when proxy shutdown makes the engine finish before cancel IPC; cleanup still must be confirmed.
 - Existing five tools and pinned Moli 1.1.16 retained. Edge fallback remains disabled.
 
 ## 0.1.0
