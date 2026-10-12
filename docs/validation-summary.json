@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0-beta.1",
+  "date": "2026-10-12",
+  "engine_version": "1.1.16",
+  "linux": {
+    "node": "22.22.1",
+    "python": "3.14.4",
+    "tests": 40,
+    "pass": 40,
+    "fail": 0,
+    "skip": 0
+  },
+  "win32": {
+    "node": "24.19.0",
+    "python": "3.12.14",
+    "tests": 40,
+    "pass": 39,
+    "fail": 0,
+    "skip": 1,
+    "skip_reason": "Linux-only filesystem namespace test"
+  },
+  "npm_known_vulnerabilities": 0,
+  "github_ci_executed": false,
+  "current_chat_discovery_proven": false,
+  "external_users_tested": 0,
+  "chromium_qualified": false
+}

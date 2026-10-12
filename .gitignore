@@ -1,0 +1,14 @@
+node_modules/
+data/
+dist/
+vendor/
+validation/
+.mcp.json
+.mcp.win32.json
+.mcp.linux.json
+.moli-install.json
+config.json.backup-*
+config.json.lock
+.local/
+__pycache__/
+*.tmp

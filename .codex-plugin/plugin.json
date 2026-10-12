@@ -1,0 +1,19 @@
+{
+  "name": "moli-webonderzoek",
+  "version": "0.2.0-beta.1",
+  "description": "Read selected public sources with Moli, retain local evidence and compare snapshots.",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Moli Web Research",
+    "shortDescription": "Local web sources with retrievable evidence.",
+    "longDescription": "Five local MCP tools for page extraction, small batches, source evidence and manual snapshot comparisons. x64 Windows/Linux beta. Configure selected origins before use.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Read my selected public sources with Moli and explain the findings with source references."
+  }
+}

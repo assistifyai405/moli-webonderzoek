@@ -1,0 +1,20 @@
+{
+  "version": "1.1.16",
+  "source": "https://github.com/lexmount/moli/releases/tag/v1.1.16",
+  "assets": {
+    "linux": {
+      "archive": "moli-x86_64-unknown-linux-gnu.tar.gz",
+      "sha256": "95e4e418676ce4f8f425487962366bbdf93a3ef7e63319670b0bced544140ea5",
+      "binary": "vendor/linux/moli-v1.1.16-x86_64-unknown-linux-gnu/moli",
+      "binary_sha256": "ab31bbd79289fc6217ccdc82cf373d30a7150c66b35be6843236f90fdec17ebd",
+      "url": "https://github.com/lexmount/moli/releases/download/v1.1.16/moli-x86_64-unknown-linux-gnu.tar.gz"
+    },
+    "win32": {
+      "archive": "moli-x86_64-pc-windows-msvc.zip",
+      "sha256": "fcbf47dc04b12cbf51285eff85dc6de252937e24c50c712eb8ab36bb7205dec6",
+      "binary": "vendor/win32/moli-v1.1.16-x86_64-pc-windows-msvc/moli.exe",
+      "binary_sha256": "58d086416aa3069c9501f689da78b6f86fd2e918f295c536d5d7f902e9b75886",
+      "url": "https://github.com/lexmount/moli/releases/download/v1.1.16/moli-x86_64-pc-windows-msvc.zip"
+    }
+  }
+}

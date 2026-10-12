@@ -1,0 +1,6 @@
+interface:
+  display_name: "Moli Web Research"
+  short_description: "Read web sources and retain local evidence"
+  default_prompt: "Read selected public web sources with Moli and explain findings with citations."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,4 @@
+{
+  "selected_origins": ["https://example.com", "https://nodejs.org"],
+  "chromium_fallback": false
+}

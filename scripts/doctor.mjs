@@ -1,0 +1,14 @@
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import {spawnSync} from 'node:child_process';
+import {ROOT} from '../src/process.mjs';
+import {loadConfig} from '../src/config.mjs';
+import {findPython} from './runtime.mjs';
+const report={platform:process.platform,arch:process.arch,node:process.versions.node,checks:[],current_chat_proven:false};
+const check=async(name,fn)=>{try{report.checks.push({name,ok:true,details:await fn()});}catch(e){report.checks.push({name,ok:false,reason:e.message});}};
+await check('platform',()=>{if(!['win32','linux'].includes(process.platform)||process.arch!=='x64'||Number(process.versions.node.split('.')[0])<22)throw new Error('Requires x64 Windows/Linux and Node 22+.');return 'supported';});
+await check('python',()=>findPython());
+await check('configuration',async()=>{const c=await loadConfig(path.join(ROOT,'config.json'));return {selected_origins:c.selected_origins,fallback:c.chromium_fallback};});
+await check('engine',async()=>{const {Service}=await import('../src/service.mjs');const s=new Service();try{const status=await s.status();if(!status.engine_digest_verified)throw new Error(status.reason);return {version:status.version,checksum_verified:true};}finally{await s.close();}});
+if(process.platform==='linux')await check('linux_namespaces',async()=>{await fs.access('/usr/bin/bwrap');const p=spawnSync('/usr/bin/bwrap',['--unshare-user','--unshare-pid','--ro-bind','/','/','--','/usr/bin/true'],{timeout:5000,encoding:'utf8'});if(p.status!==0)throw new Error('bubblewrap user/PID namespaces are unavailable; inspect your host policy.');return 'available';});
+report.ok=report.checks.every(c=>c.ok);console.log(JSON.stringify(report,null,2));if(!report.ok)process.exitCode=1;

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "moli-webonderzoek": {
+      "command": "ABSOLUTE_NODE_EXECUTABLE",
+      "args": ["ABSOLUTE_PROJECT_DIRECTORY/src/server.mjs"],
+      "env": {"MOLI_PYTHON": "ABSOLUTE_PYTHON_EXECUTABLE"}
+    }
+  }
+}
